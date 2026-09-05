@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn, ZoomOut, RotateCcw, Maximize, Download, FileText, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react';
+import { X, ZoomIn, ZoomOut, RotateCcw, Maximize, Download, Award } from 'lucide-react';
+import { getAssetUrl, downloadFile } from '../utils/assets';
 
 export default function CertModal({ cert, onClose }) {
   const [zoom, setZoom] = useState(1);
@@ -37,7 +38,8 @@ export default function CertModal({ cert, onClose }) {
     }
   };
 
-  const hasDocument = Boolean(cert.file && cert.file.trim() !== '');
+  const hasDocument = Boolean(cert?.file && cert.file.trim() !== '');
+  const documentUrl = hasDocument ? getAssetUrl(cert.file) : '';
 
   return (
     <AnimatePresence>
@@ -58,54 +60,57 @@ export default function CertModal({ cert, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-          className={`relative w-full max-w-5xl max-h-[92vh] flex flex-col glass-panel border border-white/15 dark:border-white/15 rounded-2xl shadow-2xl overflow-hidden z-10 text-slate-900 dark:text-slate-100 ${
-            isFullscreen ? 'h-full max-h-screen rounded-none' : ''
+          className={`relative w-full max-w-4xl max-h-[92vh] flex flex-col glass-panel border border-white/15 rounded-3xl shadow-2xl overflow-hidden z-10 text-slate-100 ${
+            isFullscreen ? 'fixed inset-2 max-w-none max-h-none rounded-2xl' : ''
           }`}
         >
           {/* Top Control Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5 border-b border-white/10 bg-white/5">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-cyber-purple/10 border border-cyber-purple/30 flex items-center justify-center text-cyber-purple">
-                <ShieldCheck className="w-4 h-4" />
+          <div className="flex items-center justify-between p-3 sm:p-5 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-cyber-purple/15 border border-cyber-purple/40 text-cyber-purple flex items-center justify-center shrink-0">
+                <Award className="w-5 h-5" />
               </div>
-              <div>
-                <h3 className="font-display font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
+              <div className="min-w-0">
+                <h3 className="font-display font-bold text-sm sm:text-base text-white truncate">
                   {cert.title}
                 </h3>
-                <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                  Issued by: {cert.organization} {cert.date ? `• ${cert.date}` : ''}
+                <p className="text-xs font-mono text-slate-400 truncate">
+                  {cert.organization} {cert.date ? `• ${cert.date}` : ''}
                 </p>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {hasDocument && (
                 <>
-                  <button
-                    onClick={handleZoomOut}
-                    title="Zoom Out"
-                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
-                  >
-                    <ZoomOut className="w-4 h-4" />
-                  </button>
-                  <span className="text-xs font-mono text-slate-400 min-w-[40px] text-center">
-                    {Math.round(zoom * 100)}%
-                  </span>
-                  <button
-                    onClick={handleZoomIn}
-                    title="Zoom In"
-                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
-                  >
-                    <ZoomIn className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={handleResetZoom}
-                    title="Reset Zoom"
-                    className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 transition-colors"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="hidden sm:flex items-center gap-1 bg-white/5 border border-white/10 rounded-lg p-1 mr-1">
+                    <button
+                      onClick={handleZoomOut}
+                      title="Zoom Out"
+                      className="p-1 hover:bg-white/10 rounded text-slate-300 transition-colors"
+                    >
+                      <ZoomOut className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-[11px] font-mono px-1.5 text-slate-300">
+                      {Math.round(zoom * 100)}%
+                    </span>
+                    <button
+                      onClick={handleZoomIn}
+                      title="Zoom In"
+                      className="p-1 hover:bg-white/10 rounded text-slate-300 transition-colors"
+                    >
+                      <ZoomIn className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={handleResetZoom}
+                      title="Reset Zoom"
+                      className="p-1 hover:bg-white/10 rounded text-slate-400 transition-colors ml-0.5"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                    </button>
+                  </div>
+
                   <button
                     onClick={toggleFullscreen}
                     title="Toggle Fullscreen"
@@ -114,10 +119,14 @@ export default function CertModal({ cert, onClose }) {
                     <Maximize className="w-4 h-4" />
                   </button>
                   <a
-                    href={cert.file}
-                    download
+                    href={documentUrl}
+                    download={`${cert.id || 'certificate'}.${cert.type === 'pdf' ? 'pdf' : 'png'}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      downloadFile(documentUrl, `${cert.id || 'certificate'}.${cert.type === 'pdf' ? 'pdf' : 'png'}`);
+                    }}
                     title="Download Certificate"
-                    className="p-2 rounded-lg bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border border-cyber-cyan/40 text-cyber-cyan transition-colors"
+                    className="p-2 rounded-lg bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border border-cyber-cyan/40 text-cyber-cyan transition-colors cursor-pointer"
                   >
                     <Download className="w-4 h-4" />
                   </a>
@@ -143,13 +152,13 @@ export default function CertModal({ cert, onClose }) {
               >
                 {cert.type === 'pdf' ? (
                   <iframe
-                    src={cert.file}
+                    src={documentUrl}
                     title={cert.title}
                     className="w-full h-[600px] rounded-xl border border-white/10 bg-white shadow-2xl"
                   />
                 ) : (
                   <img
-                    src={cert.file}
+                    src={documentUrl}
                     alt={cert.title}
                     className="max-h-[600px] w-auto max-w-full rounded-xl border border-white/10 object-contain shadow-2xl"
                   />

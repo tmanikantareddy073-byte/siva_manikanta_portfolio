@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, FileText, Sparkles, Terminal, Code2, Cpu } from 'lucide-react';
 import DigitalCore from '../components/DigitalCore';
 import { profile } from '../data/portfolio';
+import { downloadFile } from '../utils/assets';
 
 export default function Hero({ onOpenResume, isDark }) {
   const scrollToProjects = (e) => {
@@ -97,9 +98,13 @@ export default function Hero({ onOpenResume, isDark }) {
             </a>
 
             <a
-              href="/resume/resume.pdf"
+              href={profile.resume.filePath}
               download="Siva_Manikanta_Reddy_Resume.pdf"
-              className="px-6 py-3.5 rounded-xl btn-secondary text-slate-800 dark:text-slate-200 hover:text-cyber-cyan font-mono text-xs tracking-wider uppercase inline-flex items-center gap-2"
+              onClick={(e) => {
+                e.preventDefault();
+                downloadFile(profile.resume.filePath, 'Siva_Manikanta_Reddy_Resume.pdf');
+              }}
+              className="px-6 py-3.5 rounded-xl btn-secondary text-slate-800 dark:text-slate-200 hover:text-cyber-cyan font-mono text-xs tracking-wider uppercase inline-flex items-center gap-2 cursor-pointer"
             >
               <FileText className="w-4 h-4 text-cyber-cyan" />
               <span>DOWNLOAD RESUME</span>

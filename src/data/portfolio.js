@@ -4,6 +4,8 @@
  * No fabricated statistics, companies, or social links.
  */
 
+import { getAssetUrl } from '../utils/assets';
+
 export const profile = {
   name: "SIVA MANIKANTA REDDY",
   displayName: "Siva Manikanta Reddy",
@@ -26,7 +28,7 @@ export const profile = {
   
   // Resume configuration: File should be placed in public/resume/resume.pdf
   resume: {
-    filePath: "/resume/resume.pdf",
+    filePath: getAssetUrl('/resume/resume.pdf'),
     lastUpdated: "2026",
   },
 };
