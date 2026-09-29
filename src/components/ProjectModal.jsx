@@ -28,7 +28,7 @@ export default function ProjectModal({ project, onClose }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+          className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
         />
 
         {/* Modal Container */}
@@ -37,44 +37,44 @@ export default function ProjectModal({ project, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-          className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto glass-panel border border-white/15 dark:border-white/15 rounded-2xl shadow-2xl p-6 sm:p-8 md:p-10 z-10 text-slate-900 dark:text-slate-100"
+          className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-obsidian-900/98 border border-gold-500/35 rounded-2xl shadow-2xl p-6 sm:p-8 md:p-10 z-10 text-slate-100"
         >
           {/* Header Bar */}
           <div className="flex items-start justify-between border-b border-white/10 pb-5 mb-6">
             <div>
               <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono tracking-wider bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono tracking-wider bg-gold-500/15 text-gold-300 border border-gold-500/30">
                   {project.category}
                 </span>
                 {project.badge && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono tracking-wider bg-cyber-purple/10 text-cyber-purple border border-cyber-purple/30">
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono tracking-wider bg-gold-500/10 text-gold-400 border border-gold-500/25">
                     {project.badge}
                   </span>
                 )}
               </div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-gradient-silver">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-white">
                 {project.title}
               </h2>
             </div>
             <button
               onClick={onClose}
               aria-label="Close modal"
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 transition-colors"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="space-y-8 text-sm sm:text-base leading-relaxed">
+          <div className="space-y-8 text-sm sm:text-base leading-relaxed font-sans">
             
             {/* 01 — OVERVIEW */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-2 font-semibold">
                 <span>01</span>
-                <span className="w-4 h-[1px] bg-cyber-cyan" />
+                <span className="w-4 h-[1px] bg-gold-400" />
                 <span>OVERVIEW</span>
               </div>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-300 leading-relaxed">
                 {project.description}
               </p>
             </div>
@@ -85,14 +85,14 @@ export default function ProjectModal({ project, onClose }) {
                 {project.caseStudy.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-5 rounded-xl bg-white/5 dark:bg-white/[0.03] border border-white/10 relative overflow-hidden"
+                    className="p-5 rounded-xl bg-white/[0.03] border border-white/10 relative overflow-hidden"
                   >
-                    <div className="flex items-center gap-2 text-xs font-mono text-cyber-purple tracking-wider mb-2">
+                    <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-wider mb-2 font-semibold">
                       <span>{item.number}</span>
-                      <span className="w-3 h-[1px] bg-cyber-purple" />
+                      <span className="w-3 h-[1px] bg-gold-400" />
                       <span>{item.label}</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                       {item.content}
                     </p>
                   </div>
@@ -103,9 +103,9 @@ export default function ProjectModal({ project, onClose }) {
             {/* 04 — HOW IT WORKS / ARCHITECTURE */}
             {project.architectureSteps && (
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-3">
+                <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-3 font-semibold">
                   <span>04</span>
-                  <span className="w-4 h-[1px] bg-cyber-cyan" />
+                  <span className="w-4 h-[1px] bg-gold-400" />
                   <span>ARCHITECTURE & SYSTEM FLOW</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -114,14 +114,14 @@ export default function ProjectModal({ project, onClose }) {
                       key={step.step}
                       className="p-3.5 rounded-xl border border-white/10 bg-white/[0.02] flex flex-col justify-between"
                     >
-                      <div className="flex items-center justify-between text-[11px] font-mono text-cyber-cyan mb-1.5">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-gold-400 mb-1.5">
                         <span>STEP {step.step}</span>
                         <ArrowRight className="w-3 h-3 opacity-60" />
                       </div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-slate-100 mb-1">
+                      <div className="font-semibold text-xs sm:text-sm text-slate-100 mb-1">
                         {step.name}
                       </div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                      <div className="text-[11px] text-slate-400">
                         {step.detail}
                       </div>
                     </div>
@@ -133,9 +133,9 @@ export default function ProjectModal({ project, onClose }) {
             {/* EXPENSE MASTER FLOW STEPS */}
             {project.flowSteps && (
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-3">
+                <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-3 font-semibold">
                   <span>04</span>
-                  <span className="w-4 h-[1px] bg-cyber-cyan" />
+                  <span className="w-4 h-[1px] bg-gold-400" />
                   <span>PROCESSING PIPELINE</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -144,10 +144,10 @@ export default function ProjectModal({ project, onClose }) {
                       key={step.step}
                       className="p-3.5 rounded-xl border border-white/10 bg-white/[0.02]"
                     >
-                      <div className="text-[11px] font-mono text-cyber-emerald mb-1">
+                      <div className="text-[11px] font-mono text-gold-400 mb-1 font-semibold">
                         STAGE {step.step} • {step.title}
                       </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                      <div className="text-xs text-slate-400">
                         {step.desc}
                       </div>
                     </div>
@@ -159,13 +159,13 @@ export default function ProjectModal({ project, onClose }) {
             {/* KEY FEATURES */}
             {project.features && (
               <div>
-                <div className="text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-3">
+                <div className="text-xs font-mono text-gold-400 tracking-widest uppercase mb-3 font-semibold">
                   KEY FEATURES
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {project.features.map((feat, i) => (
-                    <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                      <CheckCircle2 className="w-4 h-4 text-cyber-cyan shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
+                      <CheckCircle2 className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -175,16 +175,16 @@ export default function ProjectModal({ project, onClose }) {
 
             {/* 05 — TECHNOLOGY */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-3">
+              <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-3 font-semibold">
                 <span>05</span>
-                <span className="w-4 h-[1px] bg-cyber-cyan" />
+                <span className="w-4 h-[1px] bg-gold-400" />
                 <span>TECHNOLOGIES USED</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 rounded-lg text-xs font-mono bg-white/5 dark:bg-white/[0.04] border border-white/10 text-slate-700 dark:text-slate-300"
+                    className="px-3 py-1 rounded-lg text-xs font-mono bg-white/[0.04] border border-white/10 text-slate-300"
                   >
                     {tech}
                   </span>
@@ -194,21 +194,21 @@ export default function ProjectModal({ project, onClose }) {
 
             {/* 06 — MY CONTRIBUTION */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-2 font-semibold">
                 <span>06</span>
-                <span className="w-4 h-[1px] bg-cyber-cyan" />
+                <span className="w-4 h-[1px] bg-gold-400" />
                 <span>MY CONTRIBUTION</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 p-4 rounded-xl bg-white/[0.02] border border-white/10">
+              <p className="text-xs sm:text-sm text-slate-300 p-4 rounded-xl bg-white/[0.02] border border-white/10">
                 {project.contribution}
               </p>
             </div>
 
-            {/* 07 — VISUALS PLACEHOLDER */}
+            {/* 07 — VISUALS */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-2 font-semibold">
                 <span>07</span>
-                <span className="w-4 h-[1px] bg-cyber-cyan" />
+                <span className="w-4 h-[1px] bg-gold-400" />
                 <span>PROJECT VISUALS</span>
               </div>
               {project.images && project.images.length > 0 ? (
@@ -224,12 +224,12 @@ export default function ProjectModal({ project, onClose }) {
                 </div>
               ) : (
                 <div className="p-6 rounded-xl border border-dashed border-white/15 bg-white/[0.01] flex flex-col items-center text-center justify-center text-slate-400">
-                  <ImageIcon className="w-8 h-8 mb-2 text-cyber-cyan/60" />
-                  <span className="text-xs font-mono text-slate-300 dark:text-slate-400 mb-1">
+                  <ImageIcon className="w-8 h-8 mb-2 text-gold-400/60" />
+                  <span className="text-xs font-mono text-slate-300 mb-1">
                     Visual Media Pending User Upload
                   </span>
                   <span className="text-[11px] font-mono text-slate-500">
-                    Drop screenshots in <code className="text-cyber-cyan">public/projects/{project.id}/</code> to showcase
+                    Drop screenshots in <code className="text-gold-400">public/projects/{project.id}/</code> to showcase
                   </span>
                 </div>
               )}
@@ -237,9 +237,9 @@ export default function ProjectModal({ project, onClose }) {
 
             {/* 08 — LINKS */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-3">
+              <div className="flex items-center gap-2 text-xs font-mono text-gold-400 tracking-widest uppercase mb-3 font-semibold">
                 <span>08</span>
-                <span className="w-4 h-[1px] bg-cyber-cyan" />
+                <span className="w-4 h-[1px] bg-gold-400" />
                 <span>PROJECT LINKS</span>
               </div>
               <div className="flex flex-wrap gap-3">
@@ -265,7 +265,7 @@ export default function ProjectModal({ project, onClose }) {
                     href={project.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border border-cyber-cyan/40 text-xs font-mono text-cyber-cyan transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/40 text-xs font-mono text-gold-400 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
                     <span>LIVE DEMONSTRATION</span>
@@ -277,7 +277,7 @@ export default function ProjectModal({ project, onClose }) {
                     href={project.video}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyber-purple/10 hover:bg-cyber-purple/20 border border-cyber-purple/40 text-xs font-mono text-cyber-purple transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/40 text-xs font-mono text-gold-400 transition-colors"
                   >
                     <Video className="w-4 h-4" />
                     <span>WALKTHROUGH VIDEO</span>
@@ -293,7 +293,7 @@ export default function ProjectModal({ project, onClose }) {
             <span>Press ESC or click outside to dismiss</span>
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-colors"
+              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-colors cursor-pointer"
             >
               CLOSE
             </button>

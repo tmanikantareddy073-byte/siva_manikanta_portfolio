@@ -37,6 +37,6 @@ export const experiences = [
       "Examined practical data ingestion, pipeline staging, and cloud storage architectures.",
       "Gained working understanding of scalable cloud architecture design patterns.",
     ],
-    verifiedCertificateId: "aws-data-engineering",
+    verifiedCertificateId: null,
   }
 ];

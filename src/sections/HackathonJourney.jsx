@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Trophy, Lightbulb, Hammer, RefreshCw, Flag, Sparkles, ArrowRight, Award, FolderGit2 } from 'lucide-react';
+import { Trophy, Lightbulb, Hammer, RefreshCw, Flag, Sparkles, ArrowRight, Award, FolderGit2, Eye } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 export default function HackathonJourney({ onOpenGenUI, onOpenCert }) {
   const steps = [
@@ -7,60 +8,54 @@ export default function HackathonJourney({ onOpenGenUI, onOpenCert }) {
       stage: '01',
       title: 'IDEA',
       icon: Lightbulb,
-      color: 'text-amber-400',
-      border: 'border-amber-400/30',
       desc: 'Observed that static frontend forms restrict real-time workflow adaptation. Conceived an AI orchestration layer allowing users to generate functional UIs through natural language.',
     },
     {
       stage: '02',
       title: 'BUILD',
       icon: Hammer,
-      color: 'text-cyber-cyan',
-      border: 'border-cyber-cyan/30',
       desc: 'Implemented FastAPI backend, integrated Google Gemini API prompt parsing, structured JSON schemas via Pydantic, and created dynamic React component renderers.',
     },
     {
       stage: '03',
       title: 'ITERATE',
       icon: RefreshCw,
-      color: 'text-cyber-purple',
-      border: 'border-cyber-purple/30',
       desc: 'Refined prompt engineering for deterministic UI layout schemas, resolved state mutation bugs, and polished responsive Tailwind CSS styling.',
     },
     {
       stage: '04',
       title: 'HACKATHON',
       icon: Flag,
-      color: 'text-blue-400',
-      border: 'border-blue-400/30',
       desc: 'Competed at the prestigious NRI-U Hackathon hosted at NRI Institute of Technology. Deployed live prototype for evaluation by technical judges.',
     },
     {
       stage: '05',
       title: 'SHOWCASE',
       icon: Trophy,
-      color: 'text-cyber-emerald',
-      border: 'border-cyber-emerald/30',
       desc: 'Successfully showcased GenUI AI in front of faculty and tech reviewers, receiving the NRI-U Hackathon Participation Certificate.',
     },
   ];
 
   return (
-    <section id="hackathon" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+    <section id="hackathon" className="py-24 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+      
+      {/* Ambient gold glow */}
+      <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-gold-500/[0.03] rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-16">
-          <div className="flex items-center gap-2 text-xs font-mono text-cyber-purple tracking-widest uppercase mb-2">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-gold-400 uppercase mb-2">
             <span>05</span>
-            <span className="w-6 h-[1px] bg-cyber-purple" />
+            <span className="w-6 h-[1px] bg-gold-400" />
             <span>COMPETITIVE SHOWCASE</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">
             NRI-U HACKATHON JOURNEY
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
-            Tracing the end-to-end development cycle of <strong className="text-cyber-cyan font-semibold">GenUI AI</strong> from initial conceptualization to live presentation at the NRI-U Hackathon.
+          <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed font-sans">
+            Tracing the end-to-end development cycle of <strong className="text-gold-400 font-semibold">GenUI AI</strong> from initial conceptualization to live presentation at the NRI-U Hackathon.
           </p>
         </div>
 
@@ -75,19 +70,19 @@ export default function HackathonJourney({ onOpenGenUI, onOpenCert }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="p-6 rounded-3xl glass-panel interactive-card border border-white/10 flex flex-col justify-between group"
+                className="p-6 rounded-3xl bg-obsidian-900/90 border border-white/[0.08] hover:border-gold-500/40 flex flex-col justify-between group transition-all"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-mono text-slate-500 font-medium">STAGE {step.stage}</span>
-                    <div className={`p-2 rounded-xl bg-white/[0.04] border ${step.border} ${step.color}`}>
+                    <span className="text-[11px] font-mono text-gold-400/80 font-medium">STAGE {step.stage}</span>
+                    <div className="p-2 rounded-xl bg-gold-500/10 border border-gold-500/30 text-gold-400">
                       <Icon className="w-4 h-4" />
                     </div>
                   </div>
-                  <h3 className="font-display font-bold text-sm text-slate-900 dark:text-white mb-2 tracking-tight">
+                  <h3 className="font-serif font-bold text-sm text-white mb-2 tracking-tight">
                     {step.title}
                   </h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                  <p className="text-xs text-slate-400 leading-relaxed font-sans font-normal">
                     {step.desc}
                   </p>
                 </div>
@@ -97,25 +92,45 @@ export default function HackathonJourney({ onOpenGenUI, onOpenCert }) {
         </div>
 
         {/* Visual Linkage Box Connecting GenUI AI & NRI-U Certificate */}
-        <div className="p-6 sm:p-8 rounded-3xl glass-panel border border-cyber-purple/35 bg-gradient-to-r from-cyber-purple/[0.04] via-transparent to-cyber-cyan/[0.04] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-card">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-cyber-purple/15 border border-cyber-purple/40 text-cyber-purple flex items-center justify-center shrink-0">
-              <Trophy className="w-6 h-6" />
+        <div className="p-6 sm:p-8 rounded-3xl bg-obsidian-900/95 border border-gold-500/40 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-card">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            {/* Certificate Photo Thumbnail */}
+            <div 
+              onClick={onOpenCert}
+              className="relative w-32 h-24 sm:w-40 sm:h-28 rounded-2xl overflow-hidden border-2 border-gold-500/50 group cursor-pointer shrink-0 shadow-lg shadow-gold-500/10"
+              title="Click to view full resolution certificate"
+            >
+              <img 
+                src={getAssetUrl('/certificates/NRI_Hackathon_Certificate.jpeg')} 
+                alt="NRI Hackathon Participation Certificate"
+                className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+              <div className="absolute inset-0 bg-gold-500/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
+                <span className="text-[10px] font-mono font-bold text-white bg-black/80 px-2 py-1 rounded border border-gold-400 flex items-center gap-1">
+                  <Eye className="w-3.5 h-3.5 text-gold-400" /> INSPECT
+                </span>
+              </div>
             </div>
+
             <div>
-              <h4 className="font-display font-bold text-base text-slate-900 dark:text-white tracking-tight">
-                Hackathon Artifacts & Proof of Innovation
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-gold-500/15 text-gold-300 border border-gold-500/30 mb-1.5">
+                <Trophy className="w-3 h-3 text-gold-400" />
+                <span>OFFICIAL HACKATHON CREDENTIAL</span>
+              </div>
+              <h4 className="font-serif font-bold text-base sm:text-lg text-white tracking-tight">
+                InnoGenesis 24-Hour National Innovation Hackathon 5.0
               </h4>
               <p className="text-xs text-slate-400 font-mono mt-0.5">
-                GenUI AI Prototype ↔ NRI-U Hackathon Participation Award
+                School of Computer Studies, Dr. RVR NRI Institute of Technology • August 2026
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
             <button
               onClick={onOpenGenUI}
-              className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl btn-secondary text-cyber-cyan text-xs font-mono flex items-center justify-center gap-2"
+              className="flex-1 sm:flex-initial px-5 py-2.5 rounded-full border border-gold-500/30 hover:border-gold-400 text-gold-400 hover:text-white text-xs font-mono flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <FolderGit2 className="w-3.5 h-3.5" />
               <span>EXPLORE GENUI AI</span>
@@ -123,7 +138,7 @@ export default function HackathonJourney({ onOpenGenUI, onOpenCert }) {
 
             <button
               onClick={onOpenCert}
-              className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl btn-primary text-slate-950 text-xs font-mono flex items-center justify-center gap-2"
+              className="flex-1 sm:flex-initial px-5 py-2.5 rounded-full btn-gold text-xs font-sans font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
               <Award className="w-3.5 h-3.5" />
               <span>VIEW NRI-U CERTIFICATE</span>

@@ -49,16 +49,16 @@ export default function ResumeModal({ isOpen, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-          className="relative w-full max-w-4xl max-h-[90vh] flex flex-col glass-panel border border-white/15 rounded-3xl shadow-2xl overflow-hidden z-10 text-slate-100"
+          className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-obsidian-900/98 border border-gold-500/35 rounded-3xl shadow-2xl overflow-hidden z-10 text-slate-100"
         >
           {/* Header */}
           <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10 bg-white/[0.02]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-cyber-cyan/15 border border-cyber-cyan/40 text-cyber-cyan flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 text-gold-400 flex items-center justify-center">
                 <FileText className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-base sm:text-lg text-white">
+                <h3 className="font-serif font-bold text-base sm:text-lg text-white">
                   CURRICULUM VITAE / RESUME
                 </h3>
                 <p className="text-xs font-mono text-slate-400">
@@ -85,7 +85,7 @@ export default function ResumeModal({ isOpen, onClose }) {
                   e.preventDefault();
                   downloadFile(profile.resume.filePath, 'Siva_Manikanta_Reddy_Resume.pdf');
                 }}
-                className="px-4 py-2 rounded-xl btn-primary text-slate-950 text-xs font-mono font-bold inline-flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2 rounded-full btn-gold text-slate-950 text-xs font-sans font-bold inline-flex items-center gap-2 cursor-pointer shadow-sm"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>DOWNLOAD PDF</span>
@@ -93,7 +93,7 @@ export default function ResumeModal({ isOpen, onClose }) {
 
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl btn-secondary text-slate-300 hover:text-white transition-colors ml-1"
+                className="p-2 rounded-xl btn-secondary text-slate-300 hover:text-white transition-colors ml-1 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -122,7 +122,7 @@ export default function ResumeModal({ isOpen, onClose }) {
                         e.preventDefault();
                         downloadFile(profile.resume.filePath, 'Siva_Manikanta_Reddy_Resume.pdf');
                       }}
-                      className="text-cyber-cyan underline cursor-pointer"
+                      className="text-gold-400 underline cursor-pointer"
                     >
                       Download the PDF
                     </a>{' '}
@@ -131,14 +131,14 @@ export default function ResumeModal({ isOpen, onClose }) {
                 </iframe>
               </object>
             ) : (
-              <div className="max-w-md w-full p-8 rounded-2xl glass-panel border border-cyber-cyan/30 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-cyber-cyan/15 border border-cyber-cyan/40 text-cyber-cyan flex items-center justify-center mx-auto mb-4">
+              <div className="max-w-md w-full p-8 rounded-2xl bg-obsidian-900 border border-gold-500/30 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-gold-500/15 border border-gold-500/40 text-gold-400 flex items-center justify-center mx-auto mb-4">
                   <FileText className="w-7 h-7" />
                 </div>
-                <h4 className="text-lg font-bold font-display text-white mb-2">
+                <h4 className="text-lg font-bold font-serif text-white mb-2">
                   Resume Ready for Download
                 </h4>
-                <p className="text-xs text-slate-300 mb-6 leading-relaxed">
+                <p className="text-xs text-slate-300 mb-6 leading-relaxed font-sans">
                   You can download the compiled resume PDF below.
                 </p>
                 <a
@@ -148,7 +148,7 @@ export default function ResumeModal({ isOpen, onClose }) {
                     e.preventDefault();
                     downloadFile(profile.resume.filePath, 'Siva_Manikanta_Reddy_Resume.pdf');
                   }}
-                  className="px-6 py-2.5 rounded-xl btn-primary text-xs font-mono font-bold inline-flex items-center gap-2 text-slate-950 cursor-pointer"
+                  className="px-6 py-2.5 rounded-full btn-gold text-xs font-sans font-bold inline-flex items-center gap-2 text-slate-950 cursor-pointer shadow-sm"
                 >
                   <Download className="w-4 h-4" />
                   <span>DOWNLOAD PDF NOW</span>

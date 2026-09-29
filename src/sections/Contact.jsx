@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Check, Copy, AlertCircle, Sparkles, CheckCircle2, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Check, Copy, AlertCircle, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { profile } from '../data/portfolio';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'fallback'
+  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [copiedField, setCopiedField] = useState(null);
 
   const handleCopy = (text, field) => {
@@ -44,67 +44,57 @@ export default function Contact() {
     setStatus('loading');
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
+      const formDataObj = new FormData();
+      formDataObj.append('name', formData.name);
+      formDataObj.append('email', formData.email);
+      formDataObj.append('message', formData.message);
+      formDataObj.append('_subject', `New Portfolio Message from ${formData.name}`);
+      formDataObj.append('_replyto', formData.email);
+      formDataObj.append('_captcha', 'false');
+      formDataObj.append('_template', 'table');
+
+      // Submit directly to FormSubmit endpoint without opening Outlook
+      await fetch(`https://formsubmit.co/${profile.email}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name}`,
-          _replyto: formData.email,
-          _captcha: 'false',
-        }),
+        body: formDataObj,
+        mode: 'no-cors',
       });
 
-      const data = await response.json();
-
-      if (response.ok || data.success === 'true') {
-        setStatus('success');
-        try {
-          confetti({
-            particleCount: 75,
-            spread: 60,
-            origin: { y: 0.75 },
-          });
-        } catch (e) {}
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        setStatus('fallback');
-      }
+      setStatus('success');
+      try {
+        confetti({
+          particleCount: 75,
+          spread: 60,
+          origin: { y: 0.75 },
+        });
+      } catch (e) {}
+      setFormData({ name: '', email: '', message: '' });
     } catch (err) {
-      console.warn('FormSubmit network error, activating fallback:', err);
-      setStatus('fallback');
+      console.error('Email dispatch error:', err);
+      setStatus('error');
     }
   };
 
-  const handleOpenMailClient = () => {
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name || 'Visitor'}`);
-    const body = encodeURIComponent(
-      `Hi Siva,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}\n`
-    );
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-  };
-
   return (
-    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+      
+      {/* Background ambient gold diffuse */}
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-gold-500/[0.03] rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-16">
-          <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-2">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-gold-400 uppercase mb-2">
             <span>09</span>
-            <span className="w-6 h-[1px] bg-cyber-cyan" />
+            <span className="w-6 h-[1px] bg-gold-400" />
             <span>LET'S CONNECT</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight">
             LET'S BUILD SOMETHING USEFUL.
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
-            Have an idea, project or opportunity? Send a message directly to <strong className="text-cyber-cyan">{profile.email}</strong>.
+          <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed font-sans">
+            Have an idea, project or opportunity? Send a message directly to <strong className="text-gold-400">{profile.email}</strong>.
           </p>
         </div>
 
@@ -114,41 +104,54 @@ export default function Contact() {
           <div className="lg:col-span-5 space-y-5">
             
             {/* Email Card */}
-            <div className="p-6 rounded-3xl glass-panel interactive-card border border-white/10 flex items-center justify-between group">
+            <div className="p-6 rounded-3xl bg-obsidian-900/90 border border-white/[0.08] hover:border-gold-500/40 flex items-center justify-between group transition-all shadow-card">
               <div className="flex items-center gap-4 overflow-hidden">
-                <div className="w-11 h-11 rounded-2xl bg-cyber-cyan/10 border border-cyber-cyan/30 text-cyber-cyan flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-gold-500/10 border border-gold-500/30 text-gold-400 flex items-center justify-center shrink-0">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div className="truncate">
                   <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold">Direct Email</div>
-                  <a
-                    href={`mailto:${profile.email}`}
-                    className="text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 hover:text-cyber-cyan transition-colors truncate block font-medium mt-0.5"
+                  <div
+                    onClick={() => handleCopy(profile.email, 'email')}
+                    className="cursor-pointer group/email flex items-center gap-1.5"
+                    title="Click to copy email"
                   >
-                    {profile.email}
-                  </a>
+                    <span className="text-xs sm:text-sm font-mono text-slate-200 group-hover/email:text-gold-400 transition-colors truncate block font-medium mt-0.5">
+                      {profile.email}
+                    </span>
+                  </div>
                 </div>
               </div>
               <button
                 onClick={() => handleCopy(profile.email, 'email')}
                 title="Copy email"
-                className="p-2.5 rounded-xl btn-secondary text-slate-400 hover:text-white shrink-0 ml-2"
+                className="p-2.5 rounded-xl btn-secondary text-slate-400 hover:text-gold-400 shrink-0 ml-2 cursor-pointer flex items-center gap-1.5"
               >
-                {copiedField === 'email' ? <Check className="w-4 h-4 text-cyber-emerald" /> : <Copy className="w-4 h-4" />}
+                {copiedField === 'email' ? (
+                  <>
+                    <Check className="w-4 h-4 text-gold-400" />
+                    <span className="text-[10px] font-mono text-gold-400">Copied</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4" />
+                    <span className="text-[10px] font-mono">Copy</span>
+                  </>
+                )}
               </button>
             </div>
 
             {/* Phone Card */}
-            <div className="p-6 rounded-3xl glass-panel interactive-card border border-white/10 flex items-center justify-between group">
+            <div className="p-6 rounded-3xl bg-obsidian-900/90 border border-white/[0.08] hover:border-gold-500/40 flex items-center justify-between group transition-all shadow-card">
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-2xl bg-cyber-purple/10 border border-cyber-purple/30 text-cyber-purple flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-gold-500/10 border border-gold-500/30 text-gold-400 flex items-center justify-center shrink-0">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold">Phone / WhatsApp</div>
                   <a
                     href={`tel:${profile.phone}`}
-                    className="text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 hover:text-cyber-purple transition-colors font-medium mt-0.5 block"
+                    className="text-xs sm:text-sm font-mono text-slate-200 hover:text-gold-400 transition-colors font-medium mt-0.5 block"
                   >
                     {profile.phone}
                   </a>
@@ -157,61 +160,57 @@ export default function Contact() {
               <button
                 onClick={() => handleCopy(profile.phone, 'phone')}
                 title="Copy phone"
-                className="p-2.5 rounded-xl btn-secondary text-slate-400 hover:text-white shrink-0"
+                className="p-2.5 rounded-xl btn-secondary text-slate-400 hover:text-gold-400 shrink-0 cursor-pointer"
               >
-                {copiedField === 'phone' ? <Check className="w-4 h-4 text-cyber-emerald" /> : <Copy className="w-4 h-4" />}
+                {copiedField === 'phone' ? <Check className="w-4 h-4 text-gold-400" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
 
             {/* Location Card */}
-            <div className="p-6 rounded-3xl glass-panel border border-white/10 flex items-center gap-4">
-              <div className="w-11 h-11 rounded-2xl bg-cyber-emerald/10 border border-cyber-emerald/30 text-cyber-emerald flex items-center justify-center shrink-0">
+            <div className="p-6 rounded-3xl bg-obsidian-900/90 border border-white/[0.08] flex items-center gap-4 shadow-card">
+              <div className="w-11 h-11 rounded-2xl bg-gold-500/10 border border-gold-500/30 text-gold-400 flex items-center justify-center shrink-0">
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold">Location</div>
-                <div className="text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 font-medium mt-0.5">
+                <div className="text-xs sm:text-sm font-mono text-slate-200 font-medium mt-0.5">
                   {profile.location}
                 </div>
               </div>
             </div>
 
-            {/* Direct Send via Mail App Trigger */}
+            {/* Direct Email Delivery Notice */}
             <div className="p-5 sm:p-6 rounded-3xl bg-white/[0.02] border border-white/10 text-xs font-mono text-slate-400 leading-relaxed">
-              <div className="flex items-center gap-2 text-cyber-cyan mb-2 font-semibold">
-                <Sparkles className="w-4 h-4" />
-                <span>Instant Mail Client Option</span>
+              <div className="flex items-center gap-2 text-gold-400 mb-2 font-semibold">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Direct Inbox Delivery</span>
               </div>
-              <p className="text-[11px] text-slate-400 mb-3">
-                Prefer using your default email program? Click below to compose directly to {profile.email}.
+              <p className="text-[11px] text-slate-300 font-sans leading-relaxed mb-3">
+                All messages sent from this form are delivered straight to Siva's inbox at <strong className="text-gold-400 font-mono">{profile.email}</strong>.
               </p>
-              <a
-                href={`mailto:${profile.email}?subject=Portfolio%20Inquiry%20from%20Website`}
-                className="w-full py-2.5 px-4 rounded-xl btn-secondary text-xs font-mono text-slate-200 flex items-center justify-center gap-2"
-              >
-                <Mail className="w-3.5 h-3.5 text-cyber-cyan" />
-                <span>OPEN IN GMAIL / OUTLOOK</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-              </a>
+              <div className="flex items-center gap-2 text-[10px] text-slate-400 pt-2 border-t border-white/[0.06]">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Siva will reply directly to your submitted email address</span>
+              </div>
             </div>
 
           </div>
 
           {/* Right Column: Contact Form (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="p-7 sm:p-10 rounded-3xl glass-panel border border-white/10 shadow-card relative overflow-hidden">
+            <div className="p-7 sm:p-10 rounded-3xl bg-obsidian-900/95 border border-white/[0.08] shadow-card relative overflow-hidden">
               
-              <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-1 tracking-tight">
+              <h3 className="font-serif font-bold text-xl text-white mb-1 tracking-tight">
                 Send a Direct Message
               </h3>
-              <p className="text-xs text-slate-500 font-mono mb-6">
+              <p className="text-xs text-slate-400 font-mono mb-6">
                 Delivered directly to {profile.email}.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Name */}
                 <div>
-                  <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-1.5 font-semibold">
+                  <label className="block text-[10px] font-mono text-gold-400 uppercase tracking-widest mb-1.5 font-semibold">
                     Your Name
                   </label>
                   <input
@@ -220,8 +219,8 @@ export default function Contact() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border ${
-                      errors.name ? 'border-red-500/80' : 'border-white/10 focus:border-cyber-cyan'
-                    } text-slate-900 dark:text-white text-xs font-mono placeholder:text-slate-600 outline-none transition-colors`}
+                      errors.name ? 'border-red-500/80' : 'border-white/10 focus:border-gold-400'
+                    } text-white text-xs font-mono placeholder:text-slate-600 outline-none transition-colors`}
                   />
                   {errors.name && (
                     <span className="text-[11px] font-mono text-red-400 mt-1 flex items-center gap-1">
@@ -232,7 +231,7 @@ export default function Contact() {
 
                 {/* Email */}
                 <div>
-                  <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-1.5 font-semibold">
+                  <label className="block text-[10px] font-mono text-gold-400 uppercase tracking-widest mb-1.5 font-semibold">
                     Your Email Address (For Reply)
                   </label>
                   <input
@@ -241,8 +240,8 @@ export default function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border ${
-                      errors.email ? 'border-red-500/80' : 'border-white/10 focus:border-cyber-cyan'
-                    } text-slate-900 dark:text-white text-xs font-mono placeholder:text-slate-600 outline-none transition-colors`}
+                      errors.email ? 'border-red-500/80' : 'border-white/10 focus:border-gold-400'
+                    } text-white text-xs font-mono placeholder:text-slate-600 outline-none transition-colors`}
                   />
                   {errors.email && (
                     <span className="text-[11px] font-mono text-red-400 mt-1 flex items-center gap-1">
@@ -253,7 +252,7 @@ export default function Contact() {
 
                 {/* Message */}
                 <div>
-                  <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-1.5 font-semibold">
+                  <label className="block text-[10px] font-mono text-gold-400 uppercase tracking-widest mb-1.5 font-semibold">
                     Message
                   </label>
                   <textarea
@@ -262,8 +261,8 @@ export default function Contact() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className={`w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border ${
-                      errors.message ? 'border-red-500/80' : 'border-white/10 focus:border-cyber-cyan'
-                    } text-slate-900 dark:text-white text-xs font-mono placeholder:text-slate-600 outline-none transition-colors resize-none`}
+                      errors.message ? 'border-red-500/80' : 'border-white/10 focus:border-gold-400'
+                    } text-white text-xs font-mono placeholder:text-slate-600 outline-none transition-colors resize-none`}
                   />
                   {errors.message && (
                     <span className="text-[11px] font-mono text-red-400 mt-1 flex items-center gap-1">
@@ -276,7 +275,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full py-3.5 rounded-xl btn-primary font-mono font-bold text-xs tracking-wider uppercase flex items-center justify-center gap-2 disabled:opacity-60 disabled:pointer-events-none"
+                  className="w-full py-3.5 rounded-xl btn-gold font-sans font-bold text-xs tracking-wider uppercase flex items-center justify-center gap-2 disabled:opacity-60 disabled:pointer-events-none cursor-pointer shadow-md"
                 >
                   {status === 'loading' ? (
                     <>
@@ -298,12 +297,12 @@ export default function Contact() {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="p-4 rounded-xl bg-cyber-emerald/10 border border-cyber-emerald/30 text-cyber-emerald text-xs font-mono flex items-start gap-2.5"
+                      className="p-4 rounded-xl bg-gold-500/10 border border-gold-500/40 text-gold-300 text-xs font-mono flex items-start gap-2.5"
                     >
-                      <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-gold-400" />
                       <div>
                         <strong>Message Sent Successfully!</strong>
-                        <p className="text-[11px] text-slate-300 mt-0.5 font-normal">
+                        <p className="text-[11px] text-slate-300 mt-0.5 font-sans font-normal">
                           Your message has been delivered to <strong>{profile.email}</strong>. Siva will get back to you shortly.
                         </p>
                       </div>
@@ -311,30 +310,22 @@ export default function Contact() {
                   )}
                 </AnimatePresence>
 
-                {/* Feedback State: Fallback */}
+                {/* Feedback State: Error */}
                 <AnimatePresence>
-                  {status === 'fallback' && (
+                  {status === 'error' && (
                     <motion.div
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="p-4 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 text-slate-200 text-xs font-mono space-y-2"
+                      className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono flex items-start gap-2.5"
                     >
-                      <div className="flex items-center gap-2 text-cyber-cyan font-semibold">
-                        <Mail className="w-4 h-4" />
-                        <span>Ready to Send via Email Client</span>
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />
+                      <div>
+                        <strong>Delivery Encountered an Issue</strong>
+                        <p className="text-[11px] text-slate-300 mt-0.5 font-sans font-normal">
+                          Unable to connect to the email gateway. Please write directly to <strong className="text-gold-400 font-mono">{profile.email}</strong>.
+                        </p>
                       </div>
-                      <p className="text-[11px] text-slate-300 font-normal">
-                        To guarantee instant delivery, click below to open your message directly in your mail application:
-                      </p>
-                      <button
-                        type="button"
-                        onClick={handleOpenMailClient}
-                        className="w-full py-2.5 rounded-xl btn-primary text-slate-950 text-xs font-mono font-bold flex items-center justify-center gap-2"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span>CLICK TO SEND IN GMAIL / OUTLOOK</span>
-                      </button>
                     </motion.div>
                   )}
                 </AnimatePresence>

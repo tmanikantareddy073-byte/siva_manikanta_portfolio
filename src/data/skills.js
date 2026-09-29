@@ -17,11 +17,10 @@ export const skillCategories = [
         highlight: "Primary language for projects & AI scripting",
         usedInProjects: [
           { id: "genui-ai", title: "GenUI AI — Generative UI" },
-          { id: "expense-master", title: "Expense Master" },
-          { id: "password-generator", title: "Password Generator" }
+          { id: "expense-master", title: "Expense Master" }
         ],
         relatedCertifications: [
-          { id: "infosys-python", title: "Infosys Springboard Basics of Python" }
+          { id: "ibm-ai-fundamentals", title: "IBM AI Fundamentals (Credly Verified)" }
         ],
         context: "Extensively utilized for AI orchestrations, scripting, data modeling, and mathematical utility logic."
       },
@@ -104,9 +103,7 @@ export const skillCategories = [
           { id: "digital-attendance", title: "Digital Attendance System" },
           { id: "genui-ai", title: "GenUI AI (SQLite / SQLAlchemy)" }
         ],
-        relatedCertifications: [
-          { id: "aws-data-engineering", title: "AWS Academy Data Engineering Virtual Internship" }
-        ],
+        relatedCertifications: [],
         context: "Designing normalized schemas, writing queries, and managing relational persistence layers."
       }
     ]
@@ -126,7 +123,7 @@ export const skillCategories = [
           { id: "genui-ai", title: "GenUI AI (Google Gemini API orchestration)" }
         ],
         relatedCertifications: [
-          { id: "ibm-aiml", title: "IBM AI/ML Course Certificate" }
+          { id: "ibm-ai-fundamentals", title: "IBM AI Fundamentals (Credly Verified)" }
         ],
         context: "Explored actively through B.Tech CSM specialization, IBM AI/ML coursework, and generative UI project architectures. Not claimed as advanced expertise; maintained as a dedicated growth domain."
       }

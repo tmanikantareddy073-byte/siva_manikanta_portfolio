@@ -11,26 +11,30 @@ export default function Journey() {
   };
 
   return (
-    <section id="journey" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+    <section id="journey" className="py-24 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+      
+      {/* Background ambient gold diffuse */}
+      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-gold-500/[0.03] rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-5xl mx-auto">
         
         {/* Header */}
         <div className="flex flex-col items-start mb-16">
-          <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan tracking-widest uppercase mb-2">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-gold-400 uppercase mb-2">
             <span>02</span>
-            <span className="w-6 h-[1px] bg-cyber-cyan" />
+            <span className="w-6 h-[1px] bg-gold-400" />
             <span>CHRONOLOGY</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">
             MY JOURNEY
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
-            From foundational school education to specialized computer engineering diploma and current B.Tech CSM studies.
+          <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed font-sans">
+            From foundational school education to specialized computer engineering diploma with distinction and current B.Tech CSM studies.
           </p>
         </div>
 
         {/* Interactive Vertical Timeline with Luminous Trace */}
-        <div className="relative border-l-2 border-white/10 ml-4 sm:ml-8 pl-6 sm:pl-10 space-y-8">
+        <div className="relative border-l-2 border-gold-500/25 ml-4 sm:ml-8 pl-6 sm:pl-10 space-y-8">
           {journeyStages.map((stage, idx) => {
             const isExpanded = expandedIndex === idx;
             const isCurrent = stage.year === 'Current';
@@ -48,13 +52,13 @@ export default function Journey() {
                 <div
                   className={`absolute -left-[31px] sm:-left-[47px] top-2 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
                     isCurrent
-                      ? 'border-cyber-cyan bg-cyber-cyan/20 shadow-[0_0_15px_rgba(56,189,248,0.5)]'
-                      : 'border-white/20 bg-dark-canvas group-hover:border-cyber-purple'
+                      ? 'border-gold-400 bg-gold-500/20 shadow-[0_0_15px_rgba(212,175,55,0.6)]'
+                      : 'border-white/20 bg-[#08080a] group-hover:border-gold-400'
                   }`}
                 >
                   <div
                     className={`w-1.5 h-1.5 rounded-full ${
-                      isCurrent ? 'bg-cyber-cyan animate-ping' : 'bg-slate-400'
+                      isCurrent ? 'bg-gold-400 animate-ping' : 'bg-slate-400'
                     }`}
                   />
                 </div>
@@ -62,22 +66,22 @@ export default function Journey() {
                 {/* Stage Header Card */}
                 <div
                   onClick={() => toggleStage(idx)}
-                  className={`p-6 sm:p-7 rounded-3xl glass-panel interactive-card cursor-pointer transition-all duration-300 ${
+                  className={`p-6 sm:p-7 rounded-3xl bg-obsidian-900/90 border cursor-pointer transition-all duration-300 shadow-card ${
                     isExpanded
-                      ? 'border-cyber-cyan/50 shadow-glow-cyan bg-white/10 dark:bg-dark-card'
-                      : 'border-white/10 hover:border-white/25'
+                      ? 'border-gold-500/50 shadow-glow-gold'
+                      : 'border-white/[0.08] hover:border-gold-500/30'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-                      <span className="px-3 py-1 rounded-full text-xs font-mono tracking-wider bg-white/[0.04] border border-white/10 text-cyber-cyan font-semibold">
+                      <span className="px-3 py-1 rounded-full text-xs font-mono tracking-wider bg-gold-500/10 border border-gold-500/30 text-gold-400 font-semibold">
                         {stage.year}
                       </span>
-                      <h3 className="font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+                      <h3 className="font-serif font-bold text-base sm:text-lg text-white">
                         {stage.stage}
                       </h3>
                       {stage.score && (
-                        <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-cyber-emerald/10 text-cyber-emerald border border-cyber-emerald/25">
+                        <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-gold-500/15 text-gold-300 border border-gold-500/30">
                           {stage.score}
                         </span>
                       )}
@@ -89,13 +93,13 @@ export default function Journey() {
                       </span>
                       <ChevronDown
                         className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${
-                          isExpanded ? 'rotate-180 text-cyber-cyan' : ''
+                          isExpanded ? 'rotate-180 text-gold-400' : ''
                         }`}
                       />
                     </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+                  <p className="text-xs sm:text-sm text-slate-400 mt-2 font-sans">
                     {stage.institution}
                   </p>
 
@@ -109,14 +113,14 @@ export default function Journey() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden pt-4 mt-4 border-t border-white/10"
                       >
-                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4 font-sans font-normal">
                           {stage.description}
                         </p>
                         
-                        <div className="flex items-center gap-3 text-xs font-mono text-slate-500">
+                        <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
                           <span className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-cyber-cyan" />
-                            Status: <strong className="text-slate-300 font-medium">{stage.status}</strong>
+                            <Clock className="w-3.5 h-3.5 text-gold-400" />
+                            Status: <strong className="text-slate-200 font-medium">{stage.status}</strong>
                           </span>
                         </div>
                       </motion.div>

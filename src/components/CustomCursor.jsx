@@ -47,36 +47,36 @@ export default function CustomCursor() {
     default: {
       width: 28,
       height: 28,
-      backgroundColor: 'rgba(56, 189, 248, 0.03)',
-      borderColor: 'rgba(56, 189, 248, 0.35)',
+      backgroundColor: 'rgba(212, 175, 55, 0.04)',
+      borderColor: 'rgba(212, 175, 55, 0.35)',
       borderWidth: 1,
     },
     hover: {
       width: 46,
       height: 46,
-      backgroundColor: 'rgba(56, 189, 248, 0.08)',
-      borderColor: 'rgba(56, 189, 248, 0.75)',
+      backgroundColor: 'rgba(212, 175, 55, 0.1)',
+      borderColor: 'rgba(212, 175, 55, 0.75)',
       borderWidth: 1.25,
     },
     project: {
       width: 90,
       height: 90,
-      backgroundColor: 'rgba(56, 189, 248, 0.16)',
-      borderColor: '#38bdf8',
+      backgroundColor: 'rgba(212, 175, 55, 0.16)',
+      borderColor: '#d4af37',
       borderWidth: 1.5,
     },
     cert: {
       width: 86,
       height: 86,
-      backgroundColor: 'rgba(129, 140, 248, 0.18)',
-      borderColor: '#818cf8',
+      backgroundColor: 'rgba(238, 201, 96, 0.18)',
+      borderColor: '#eec960',
       borderWidth: 1.5,
     },
     link: {
       width: 74,
       height: 74,
-      backgroundColor: 'rgba(52, 211, 153, 0.16)',
-      borderColor: '#34d399',
+      backgroundColor: 'rgba(250, 225, 136, 0.16)',
+      borderColor: '#fae188',
       borderWidth: 1.5,
     }
   };
@@ -94,7 +94,7 @@ export default function CustomCursor() {
         transition={{ type: 'spring', damping: 28, stiffness: 280, mass: 0.4 }}
       >
         {cursorText && (
-          <span className="text-[9px] font-mono tracking-wider text-white font-bold px-1 select-none">
+          <span className="text-[9px] font-mono tracking-wider text-gold-300 font-bold px-1 select-none">
             {cursorText}
           </span>
         )}
@@ -102,10 +102,10 @@ export default function CustomCursor() {
 
       {/* Tiny inner center dot */}
       <div
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-cyber-cyan rounded-full pointer-events-none z-[10000] hidden md:block"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-gold-400 rounded-full pointer-events-none z-[10000] hidden md:block"
         style={{
           transform: `translate3d(${position.x - 3}px, ${position.y - 3}px, 0)`,
-          boxShadow: '0 0 10px #38bdf8',
+          boxShadow: '0 0 10px #d4af37',
         }}
       />
     </>

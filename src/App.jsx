@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
 import Footer from './components/Footer';
 
-// Sections
+// Sections (ALL 100% PRESERVED SECTIONS)
 import Hero from './sections/Hero';
 import About from './sections/About';
 import Journey from './sections/Journey';
@@ -60,13 +60,14 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-dark-canvas text-dark-text selection:bg-cyber-cyan/20 selection:text-cyber-cyan transition-colors duration-400">
+    <div className="relative min-h-screen bg-[#08080a] text-slate-100 selection:bg-gold-500/25 selection:text-gold-300">
+      
       {/* Subtle Tech Grid Texture */}
       <div className="fixed inset-0 tech-grid-overlay pointer-events-none z-0" />
 
-      {/* Ambient Diffuse Background Glows */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyber-cyan/[0.04] blur-[120px] rounded-full pointer-events-none z-0" />
-      <div className="fixed top-1/3 right-0 w-[500px] h-[500px] bg-cyber-purple/[0.03] blur-[140px] rounded-full pointer-events-none z-0" />
+      {/* Ambient Diffuse Background Glows in Pure Warm Gold */}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gold-500/[0.035] blur-[140px] rounded-full pointer-events-none z-0" />
+      <div className="fixed top-1/3 right-0 w-[500px] h-[500px] bg-amber-500/[0.025] blur-[150px] rounded-full pointer-events-none z-0" />
 
       {/* Desktop Custom Cursor */}
       <CustomCursor />
@@ -74,55 +75,56 @@ export default function App() {
       {/* Top Scroll Indicator */}
       <ScrollProgress />
 
-      {/* Floating Navigation Header */}
-      <Navbar
+      {/* Left Fixed Sidebar Navigation */}
+      <Sidebar
         activeSection={activeSection}
-        theme={theme}
-        toggleTheme={toggleTheme}
         onOpenResume={() => setIsResumeOpen(true)}
       />
 
-      {/* Main Flow Sections */}
-      <main>
-        {/* 1. HERO with Digital Intelligence Core */}
-        <Hero
-          onOpenResume={() => setIsResumeOpen(true)}
-          isDark={isDark}
-        />
+      {/* Main Content Area (Offset by sidebar width on desktop) */}
+      <div className="lg:pl-24 xl:pl-28 flex flex-col min-h-screen">
+        <main className="flex-grow">
+          
+          {/* 1. HERO with 3D Modular Cubes & Celestial Halo */}
+          <Hero
+            onOpenResume={() => setIsResumeOpen(true)}
+            isDark={isDark}
+          />
 
-        {/* 2. ABOUT ME */}
-        <About />
+          {/* 2. ABOUT ME (Cream Editorial Panel + 4 Story Blocks) */}
+          <About />
 
-        {/* 3. MY JOURNEY */}
-        <Journey />
+          {/* 3. MY JOURNEY (Chronology & Timeline) */}
+          <Journey />
 
-        {/* 4. SKILLS & CONSTELLATION */}
-        <Skills onSelectProject={handleOpenProjectById} />
+          {/* 4. SKILLS & CONSTELLATION (4-Column Overview + Full Relationship Inspector) */}
+          <Skills onSelectProject={handleOpenProjectById} />
 
-        {/* 5. PROJECT LAB */}
-        <ProjectLab onOpenCaseStudy={(proj) => setSelectedProject(proj)} />
+          {/* 5. PROJECT LAB (Featured Projects + Primary Architecture Pipeline; Password Generator Removed) */}
+          <ProjectLab onOpenCaseStudy={(proj) => setSelectedProject(proj)} />
 
-        {/* 6. HACKATHON JOURNEY */}
-        <HackathonJourney
-          onOpenGenUI={() => handleOpenProjectById('genui-ai')}
-          onOpenCert={() => handleOpenCertById('nri-u-hackathon')}
-        />
+          {/* 6. NRI-U HACKATHON JOURNEY (5 Stages & Showcase Linkage) */}
+          <HackathonJourney
+            onOpenGenUI={() => handleOpenProjectById('genui-ai')}
+            onOpenCert={() => handleOpenCertById('nri-u-hackathon')}
+          />
 
-        {/* 7. EXPERIENCE & INTERNSHIPS */}
-        <Experience onOpenCert={handleOpenCertById} />
+          {/* 7. EXPERIENCE & INTERNSHIPS (Full Details & Verified Credentials) */}
+          <Experience onOpenCert={handleOpenCertById} />
 
-        {/* 8. CERTIFICATION VAULT */}
-        <CertVault onOpenCert={handleOpenCertById} />
+          {/* 8. CERTIFICATION VAULT (All 7 Authentic Verified Certifications with Credly link & Document Viewer) */}
+          <CertVault onOpenCert={handleOpenCertById} />
 
-        {/* 9. EDUCATION */}
-        <Education />
+          {/* 9. EDUCATION (Academic Milestones, Percentages & Highlights) */}
+          <Education />
 
-        {/* 10. CONTACT */}
-        <Contact />
-      </main>
+          {/* 10. CONTACT (Direct Info, Copy Buttons, Mail Trigger & Contact Form) */}
+          <Contact />
+        </main>
 
-      {/* Minimal Premium Footer */}
-      <Footer />
+        {/* Minimal Luxury Footer */}
+        <Footer />
+      </div>
 
       {/* Case Study Fullscreen Modal */}
       <ProjectModal
@@ -130,7 +132,7 @@ export default function App() {
         onClose={() => setSelectedProject(null)}
       />
 
-      {/* Certificate Document Viewer Modal */}
+      {/* Certificate Document Viewer Modal (With Credly Link, Zoom, Download) */}
       <CertModal
         cert={selectedCert}
         onClose={() => setSelectedCert(null)}
