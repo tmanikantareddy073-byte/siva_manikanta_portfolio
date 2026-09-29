@@ -44,21 +44,46 @@ export default function Contact() {
     setStatus('loading');
 
     try {
-      const formDataObj = new FormData();
-      formDataObj.append('name', formData.name);
-      formDataObj.append('email', formData.email);
-      formDataObj.append('message', formData.message);
-      formDataObj.append('_subject', `New Portfolio Message from ${formData.name}`);
-      formDataObj.append('_replyto', formData.email);
-      formDataObj.append('_captcha', 'false');
-      formDataObj.append('_template', 'table');
+      const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-      // Submit directly to FormSubmit endpoint without opening Outlook
-      await fetch(`https://formsubmit.co/${profile.email}`, {
-        method: 'POST',
-        body: formDataObj,
-        mode: 'no-cors',
-      });
+      if (profile.web3formsKey && profile.web3formsKey.trim() !== '') {
+        // Instant AWS SES submission via Web3Forms (if configured)
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: profile.web3formsKey,
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            from_name: formData.name,
+            subject: `New Portfolio Message from ${formData.name} [${nowStr}]`,
+          }),
+        });
+      } else {
+        // Direct FormSubmit with unique timestamp and nonce to prevent duplicate queueing
+        const formDataObj = new FormData();
+        formDataObj.append('name', formData.name);
+        formDataObj.append('email', formData.email);
+        formDataObj.append('message', formData.message);
+        formDataObj.append('_subject', `New Message from ${formData.name} [${nowStr}]`);
+        formDataObj.append('_replyto', formData.email);
+        formDataObj.append('_captcha', 'false');
+        formDataObj.append('_template', 'table');
+        formDataObj.append('_id', `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`);
+
+        // Race with a 3.5s timeout so the UI transitions cleanly without waiting on queue delays
+        const postPromise = fetch(`https://formsubmit.co/${profile.email}`, {
+          method: 'POST',
+          body: formDataObj,
+          mode: 'no-cors',
+        });
+
+        await Promise.race([
+          postPromise,
+          new Promise((resolve) => setTimeout(resolve, 3500)),
+        ]);
+      }
 
       setStatus('success');
       try {
@@ -280,7 +305,7 @@ export default function Contact() {
                   {status === 'loading' ? (
                     <>
                       <div className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                      <span>DISPATCHING TO INBOX...</span>
+                      <span>SENDING MESSAGE...</span>
                     </>
                   ) : (
                     <>

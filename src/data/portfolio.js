@@ -10,6 +10,7 @@ export const profile = {
   name: "SIVA MANIKANTA REDDY",
   displayName: "Siva Manikanta Reddy",
   email: "tmanikantareddy073@gmail.com",
+  web3formsKey: "", // Optional: add Web3Forms key for 1-second instant AWS SES delivery
   phone: "+91 9949189992",
   location: "Vijayawada, Andhra Pradesh",
   role: "Computer Science Student | Developer | AI/ML Enthusiast",
